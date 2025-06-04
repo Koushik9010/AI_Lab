@@ -1,0 +1,51 @@
+import collections -> This imports Python’s collections module, which provides specialized data structures.
+
+def bfs(graph, root) ->
+graph: a dictionary representing the graph
+root: the starting node for traversal
+
+visited, queue = set(), collections.deque([root]) ->
+visited: a set() to keep track of visited nodes (to avoid processing the same node multiple times)
+queue: a deque initialized with the root node — it acts like the FIFO queue needed for BFS
+
+visited.add(root) -> Marks the root node as visited so it doesn’t get re-queued later.
+
+while queue -> Continues as long as there are nodes in the queue to process (i.e., visit).
+
+vertex = queue.popleft() -> Removes and returns the leftmost item (front of the queue). This is the current node we're exploring.
+
+print(str(vertex) + " ", end = "") -> Prints the current node followed by a space. end="" ensures all output is printed on the same line.
+
+for neighbor in graph.get(vertex, []) -> Iterates over the neighbors of the current node:
+graph.get(vertex, []) safely gets the neighbors list for the vertex.
+If vertex has no neighbors (or isn't in the graph), returns an empty list to avoid error.
+
+if neighbor not in visited -> Checks whether the neighbor has already been visited.
+
+visited.add(neighbor) -> Marks the neighbor as visited to avoid duplicate visits later.
+
+queue.append(neighbor) -> Adds the neighbor to the queue for future traversal.
+
+if __name__ == '__main__' -> Standard Python idiom that ensures the following code block runs only when this script is executed directly, not when imported as a module.
+
+graph = {} -> Initializes an empty dictionary to store the graph as an adjacency list:
+keys = node labels
+values = lists of neighbors
+
+num_nodes = int(input("Enter the number of nodes: ")) -> Asks the user how many nodes they want to enter.
+
+for _ in range(num_nodes) -> Loops num_nodes times to collect user input for each node.
+
+node = input("Enter the node: ") -> Asks the user for the label/name of the current node.
+
+neighbors = input(f"Enter the neighbors of {node}: ") -> Asks for the neighbors of that node.
+
+graph[node] = neighbors.split() ->
+.split() splits the string into a list of neighbors (e.g., "1 2" → ["1", "2"])
+Stores that list in the graph under the corresponding node
+
+start_node = input("Enter the start node: ") -> Asks the user which node to start the BFS from.
+
+print("Following is BFS traversal: ") -> Prints a heading for the traversal output.
+
+bfs(graph, start_node) -> Calls the bfs function with the constructed graph and the selected starting node to begin the traversal.

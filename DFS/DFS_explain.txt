@@ -1,0 +1,56 @@
+def dfs(graph, start, visited = None) ->
+This defines a function dfs (Depth-First Search).
+graph: a dictionary representing the graph (each node and its neighbors).
+start: the node to begin the DFS from.
+visited: a set to keep track of nodes that have already been visited.
+visited=None ensures we can call dfs(graph, start) without providing this argument on the first call.
+
+if visited is None:
+   visited = set() ->
+On the first function call, visited is None.
+We initialize it as an empty set() to track which nodes we’ve already visited.
+Using a set is efficient for quick lookup and avoids revisiting nodes.
+
+visited.add(start) -> We mark the start node as visited by adding it to the visited set.
+
+print(start + " " , end="") ->
+Prints the current node (start) followed by a space, without going to a new line (end="").
+start is a string, so concatenation with " " is fine.
+Output is side-by-side like: 0 1 2 4 3
+
+for next_node in graph[start] - visited ->
+graph[start] gives all neighbors of the current node.
+graph[start] - visited subtracts the already visited nodes — so we only loop through unvisited neighbors.
+This ensures we don’t get stuck in cycles.
+
+dfs(graph, next_node, visited) ->
+Recursive call: visit each unvisited neighbor using DFS.
+visited is passed along to keep track across the recursive calls.
+
+return visited -> Returns the full set of visited nodes at the end of DFS traversal
+
+if __name__ == "__main__" ->
+Python entry point.
+This block only runs if the script is executed directly, not when imported as a module.
+
+graph = {} -> Initializes an empty dictionary to store the graph structure.
+
+num_nodes = int(input("Enter the number of nodes: ")) ->
+Takes user input for how many nodes will be entered.
+This controls the number of iterations in the next loop.
+
+for _ in range(num_nodes):
+        node = input("Enter the node: ")
+        neighbors = input(f"Enter the neighbors of {node}: ").strip().split()
+        graph[node] = set(n.strip() for n in neighbors) ->
+Loops num_nodes times to build the graph.
+Each node is added to the graph dictionary.
+For each node, it asks for space-separated neighbors.
+strip() removes extra whitespace, and split() splits them into a list.
+set(n.strip() for n in neighbors) converts the list to a set for fast membership checking and consistent DFS behavior.
+
+start_node = input("Enter the start node: ").strip() ->
+Takes user input for the node where DFS will start.
+strip() ensures no leading/trailing spaces are present.
+
+dfs(graph, start_node) -> Starts the DFS traversal from the given start node using the built graph.
